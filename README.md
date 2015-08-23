@@ -49,6 +49,13 @@ Usage
   * `print(wanikani.radicals[0])`
   * `print(wanikani.kanji[0])`
   * `print(wanikani.vocabulary[0])`
+5. If you need to pass arguments to the API then the following functions will
+   do that.
+  * `wanikani.get_recent_unlocks(limit=10)`
+  * `wanikani.get_critical_items(percent=75)`
+  * `wanikani.get_radicals(levels=[2,3,4])`
+  * `wanikani.get_kanji(levels=[5,6,7])`
+  * `wanikani.get_vocabulary(levels=[8,9,10])`
 
 Notes
 -----
