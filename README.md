@@ -4,7 +4,7 @@ Crabigator
 
 A very thin Python wrapper over the [WaniKani
 API](https://www.wanikani.com/api) (WaniKani is a tool for leaning Japanese
-vocabulary. The aim is to model the API as closely as possible while ensuring
+vocabulary). The aim is to model the API as closely as possible while ensuring
 the correct Python type is used for each field in the API. The syntax for using
 the library has been made as simple as possible.
 
@@ -28,7 +28,7 @@ Usage
 2. Instantiate a WaniKani object with your API key.
    `wk = wanikani.WaniKani('my_api_key')`
 3. Get any endpoint specified by the API docs (dashes replaced with
-   underscores.
+   underscores).
   * `wk.user_information`
   * `wk.study_queue`
   * `wk.level_progression`
