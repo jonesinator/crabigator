@@ -24,31 +24,31 @@ To install for a single user `python setup.py --user install`
 
 Usage
 -----
-1. Import the wanikani module. `from crabigator.wanikani import wanikani`
-2. Instantiate a WaniKani object with your API key.
-   `wk = wanikani.WaniKani('my_api_key')`
+1. Import the WaniKani class. `from crabigator.wanikani import WaniKani`
+2. Instantiate a WaniKani instance with your API key.
+   `wanikani = WaniKani('my_api_key')`
 3. Get any endpoint specified by the API docs (dashes replaced with
    underscores).
-  * `wk.user_information`
-  * `wk.study_queue`
-  * `wk.level_progression`
-  * `wk.srs_distribution`
-  * `wk.recent_unlocks`
-  * `wk.critical_items`
-  * `wk.radicals`
-  * `wk.kanji`
-  * `wk.vocabulary`
+  * `wanikani.user_information`
+  * `wanikani.study_queue`
+  * `wanikani.level_progression`
+  * `wanikani.srs_distribution`
+  * `wanikani.recent_unlocks`
+  * `wanikani.critical_items`
+  * `wanikani.radicals`
+  * `wanikani.kanji`
+  * `wanikani.vocabulary`
 4. From any of the above endpoints in #3 the output fields in the
    required-information key can be retrieved. For example:
-  * `print(wk.user_information.username)`
-  * `print(wk.study_queue.next_review_date)`
-  * `print(wk.level_progression.kanji_total)`
-  * `print(wk.srs_distribution.master.total)`
-  * `print(wk.recent_unlocks[0])`
-  * `print(wk.critical_items[0])`
-  * `print(wk.radicals[0])`
-  * `print(wk.kanji[0])`
-  * `print(wk.vocabulary[0])`
+  * `print(wanikani.user_information.username)`
+  * `print(wanikani.study_queue.next_review_date)`
+  * `print(wanikani.level_progression.kanji_total)`
+  * `print(wanikani.srs_distribution.master.total)`
+  * `print(wanikani.recent_unlocks[0])`
+  * `print(wanikani.critical_items[0])`
+  * `print(wanikani.radicals[0])`
+  * `print(wanikani.kanji[0])`
+  * `print(wanikani.vocabulary[0])`
 
 Notes
 -----
