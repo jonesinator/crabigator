@@ -1,6 +1,6 @@
 Crabigator
 ==========
-[![Build Status](https://travis-ci.org/jonesinator/crabigator.svg)](https://travis-ci.org/jonesinator/crabigator) ![License](https://img.shields.io/github/license/jonesinator/crabigator.svg)
+[![Build Status](https://travis-ci.org/jonesinator/crabigator.svg)](https://travis-ci.org/jonesinator/crabigator) ![License](https://img.shields.io/github/license/jonesinator/crabigator.svg) [![PyPI version](https://badge.fury.io/py/crabigator.svg)](http://badge.fury.io/py/crabigator)
 
 A very thin Python wrapper over the [WaniKani
 API](https://www.wanikani.com/api) (WaniKani is a tool for leaning Japanese
