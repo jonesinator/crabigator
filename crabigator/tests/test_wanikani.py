@@ -2,13 +2,11 @@ from crabigator.wanikani import WaniKani
 import os
 from unittest import TestCase
 
-class TestWaniKani(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.api_key = os.environ['WANIKANI_API_KEY']
+api_key = os.environ['WANIKANI_API_KEY']
 
+class TestWaniKani(TestCase):
     def test_wanikani(self):
-        wk = WaniKani(self.api_key)
+        wk = WaniKani(api_key)
         print(wk.user_information)
         print(wk.study_queue)
         print(wk.level_progression)
