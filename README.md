@@ -7,11 +7,10 @@ API. The syntax for using the library has been made as simple as possible.
 
 Status
 ------
-![Build Status](https://travis-ci.org/jonesinator/crabigator.svg)
+[![Build Status](https://travis-ci.org/jonesinator/crabigator.svg)](https://travis-ci.org/jonesinator/crabigator)
 
 Installation
 ------------
-
 ### Stable Versions
 To install for all users `sudo pip install crabigator`
 To install for a single user `pip install --user crabigator`
