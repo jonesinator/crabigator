@@ -19,7 +19,7 @@ setup(name='crabigator',
       author='Aaron Jones',
       author_email='aaron@jonesinator.com',
       license='MIT',
-      version='0.1.2',
+      version='0.1.3',
       packages=['crabigator', 'crabigator.tests'],
       classifiers=[
           'Development Status :: 3 - Alpha',
