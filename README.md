@@ -11,10 +11,14 @@ Installation
 ------------
 ### Stable Versions
 To install for all users `sudo pip install crabigator`
+
 To install for a single user `pip install --user crabigator`
 
 ### Development Versions
+First clone this repository and cd to it.
+
 To install for all users `sudo python setup.py install`
+
 To install for a single user `python setup.py --user install`
 
 Usage
