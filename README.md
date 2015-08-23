@@ -5,13 +5,23 @@ API](https://www.wanikani.com/api). The aim is to model the API as closely as
 possible while ensuring the correct Python type is used for each field in the
 API. The syntax for using the library has been made as simple as possible.
 
+Installation
+------------
+
+### Stable Versions
+To install for all users `sudo pip install crabigator`
+To install for a single user `pip install --user crabigator`
+
+### Development Versions
+To install for all users `sudo python setup.py install`
+To install for a single user `python setup.py --user install`
+
 Usage
 -----
-1. Install the crabigator library. `pip install crabigator`
-2. Import the wanikani module. `from crabigator import wanikani`
-3. Instantiate a WaniKani object with your API key.
+1. Import the wanikani module. `from crabigator.wanikani import wanikani`
+2. Instantiate a WaniKani object with your API key.
    `wk = wanikani.WaniKani('my_api_key')`
-4. Get any endpoint specified by the API docs.
+3. Get any endpoint specified by the API docs.
   * `wk.user_information`
   * `wk.study_queue`
   * `wk.level_progression`
@@ -21,7 +31,7 @@ Usage
   * `wk.radicals`
   * `wk.kanji`
   * `wk.vocabulary`
-5. From any of the above in #4 the fields in required-information can be
+4. From any of the above in #4 the fields in required-information can be
    retrieved. For example:
   * `print(wk.user_information.username)`
   * `print(wk.study_queue.next_review_date)`

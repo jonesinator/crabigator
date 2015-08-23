@@ -1,4 +1,3 @@
-from argparse import ArgumentParser
 from datetime import datetime
 from json import loads
 try:
@@ -162,26 +161,3 @@ VOCABULARY  = [('character',                   lambda x: x),
                ('meaning',                     lambda x: x.split(', ')),
                ('level',                       lambda x: x),
                ('user_specific',               lambda x: ApiObj(x, USER_SPEC))]
-
-if __name__ == '__main__':
-    parser = ArgumentParser()
-    parser.add_argument('api_key',
-        help='The API key to use when making WaniKani API requests.')
-    parser.add_argument('--url_format', default=URL_FORMAT,
-        help='The URL format to use when making WaniKani API requests.')
-    args = parser.parse_args()
-    wk = WaniKani(args.api_key, args.url_format)
-    print(wk.user_information)
-    print(wk.study_queue)
-    print(wk.level_progression)
-    print(wk.srs_distribution)
-    print(wk.recent_unlocks)
-    print(wk.get_recent_unlocks(3))
-    print(wk.critical_items)
-    print(wk.get_recent_unlocks(65))
-    print(wk.radicals)
-    print(wk.get_radicals([1,2]))
-    print(wk.kanji)
-    print(wk.get_kanji([1,2]))
-    print(wk.vocabulary)
-    print(wk.get_vocabulary([1,2]))
