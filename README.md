@@ -5,6 +5,10 @@ API](https://www.wanikani.com/api). The aim is to model the API as closely as
 possible while ensuring the correct Python type is used for each field in the
 API. The syntax for using the library has been made as simple as possible.
 
+Status
+------
+![Build Status](https://travis-ci.org/jonesinator/crabigator.svg)
+
 Installation
 ------------
 
