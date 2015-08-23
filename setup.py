@@ -1,0 +1,26 @@
+from setuptools import setup
+setup(name='crabigator',
+      description='Python Library for WaniKani',
+      long_description=open('README.md').read(),
+      url='http://github.com/jonesinator/crabigator/',
+      author='Aaron Jones',
+      author_email='aaron@jonesinator.com',
+      license=open('LICENSE').read(),
+      version='0.1.2',
+      packages=['crabigator'],
+      classifiers=[
+          'Development Status :: 3 - Alpha',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: MIT License',
+          'Natural Language :: English',
+          'Operating System :: OS Independent',
+          'Programming Language :: Python :: 2.6',
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3',
+          'Programming Language :: Python :: 3.0',
+          'Programming Language :: Python :: 3.1',
+          'Programming Language :: Python :: 3.2',
+          'Programming Language :: Python :: 3.3',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5'
+      ])
