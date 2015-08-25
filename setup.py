@@ -45,6 +45,7 @@ class Publish(setuptools.Command):
         call('python setup.py bdist_wheel')
         call('twine upload dist/*')
         call('git push origin {new}'.format(new=new))
+        call('git push origin master'.format(new=new))
 
 class Test(setuptools.Command):
     description = 'Run all unit tests for the crabigator module.'
