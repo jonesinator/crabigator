@@ -60,6 +60,7 @@ try:
     # pylint: disable=no-name-in-module, import-error
     from urllib.request import urlopen
 except ImportError:
+    # pylint: disable=no-name-in-module
     from urllib import urlopen
 
 __all__ = ['WaniKani']
