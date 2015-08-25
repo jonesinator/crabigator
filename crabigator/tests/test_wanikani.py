@@ -1,7 +1,7 @@
 """Tests for crabigator.wanikani."""
 
 from __future__ import print_function
-from crabigator.wanikani import WaniKani
+from crabigator.wanikani import *
 import os
 from unittest import TestCase
 
@@ -29,3 +29,7 @@ class TestWaniKani(TestCase):
         print(wanikani.get_kanji([1, 2]))
         print(wanikani.vocabulary)
         print(wanikani.get_vocabulary([1, 2]))
+        try:
+            wanikani.get_vocabulary([9999])
+        except WaniKaniError as ex:
+            print(ex)

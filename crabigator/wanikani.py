@@ -63,7 +63,7 @@ except ImportError:
     # pylint: disable=no-name-in-module
     from urllib import urlopen
 
-__all__ = ['WaniKani']
+__all__ = ['WaniKani', 'WaniKaniError', 'WaniKaniObject']
 
 API_VERSION = '1.4'
 URL_FORMAT = 'https://www.wanikani.com/api/v{vers}/user/{key}/{res}/{args}'
@@ -130,11 +130,13 @@ class WaniKani(object):
     vocabulary = property(get_vocabulary)
 
     def _get(self, resource, key, fields):
-        """Gets an ApiObj representing some object returned by the API."""
-        return ApiObj(self._raw_request(resource)[key], fields)
+        """Gets an WaniKaniObject representing some object returned by the
+        API.
+        """
+        return WaniKaniObject(self._raw_request(resource)[key], fields)
 
     def _get_items(self, levels, resource, fields):
-        """Gets an array of ApiObj representing radicals, kanji, or
+        """Gets an array of WaniKaniObject representing radicals, kanji, or
         vocabulary.
         """
         arg = ','.join([str(x) for x in levels]) if levels is not None else ''
@@ -144,11 +146,11 @@ class WaniKani(object):
                     else response['requested_information'])
         item_list = []
         for item in response:
-            item_list.append(ApiObj(item, fields))
+            item_list.append(WaniKaniObject(item, fields))
         return item_list
 
     def _get_meta_items(self, resource, argument):
-        """Gets an array of ApiObj representing radicals, kanji, and/or
+        """Gets an array of WaniKaniObject representing radicals, kanji, and/or
         vocabulary.
         """
         argument = str(argument) if argument is not None else ''
@@ -157,7 +159,7 @@ class WaniKani(object):
         for item in response['requested_information']:
             tmap = {'radical': RADICAL, 'kanji': KANJI,
                     'vocabulary': VOCABULARY}
-            item_list.append(ApiObj(item, tmap[item['type']]))
+            item_list.append(WaniKaniObject(item, tmap[item['type']]))
         return item_list
 
     def _raw_request(self, resource, argument='', version=API_VERSION):
@@ -168,24 +170,24 @@ class WaniKani(object):
         if 'error' in rsp:
             code = rsp['error']['code'] if 'code' in rsp['error'] else None
             msg = rsp['error']['message'] if 'message' in rsp['error'] else None
-            raise ApiError(code, msg)
+            raise WaniKaniError(code, msg)
         return rsp
 
 
-class ApiError(Exception):
+class WaniKaniError(Exception):
     """Errors returned by the WaniKani API itself.
 
     Contains all of the information in the "error" field returned by the API.
     """
 
     def __init__(self, code, msg):
-        super(ApiError, self).__init__('{c} - {m}'.format(c=code, m=msg))
+        super(WaniKaniError, self).__init__('{c} - {m}'.format(c=code, m=msg))
         (self.code, self.message) = (code, msg)
 
 # Disable the too few public methods warning from pylint. Pylint may have a
 # point, but ignore it on purpose...
 # pylint: disable=too-few-public-methods
-class ApiObj(object):
+class WaniKaniObject(object):
     """Generic object representing anything returned by the WaniKani API.
 
     This really just acts like a dict, but has a little nicer syntax. The
@@ -226,11 +228,11 @@ SRS_DIST = [('radicals', lambda x: x),
             ('kanji', lambda x: x),
             ('vocabulary', lambda x: x),
             ('total', lambda x: x)]
-SRS_DISTS = [('apprentice', lambda x: ApiObj(x, SRS_DIST)),
-             ('guru', lambda x: ApiObj(x, SRS_DIST)),
-             ('master', lambda x: ApiObj(x, SRS_DIST)),
-             ('enlighten', lambda x: ApiObj(x, SRS_DIST)),
-             ('burned', lambda x: ApiObj(x, SRS_DIST))]
+SRS_DISTS = [('apprentice', lambda x: WaniKaniObject(x, SRS_DIST)),
+             ('guru', lambda x: WaniKaniObject(x, SRS_DIST)),
+             ('master', lambda x: WaniKaniObject(x, SRS_DIST)),
+             ('enlighten', lambda x: WaniKaniObject(x, SRS_DIST)),
+             ('burned', lambda x: WaniKaniObject(x, SRS_DIST))]
 USER_SPEC = [('srs', lambda x: x),
              ('srs_numeric', lambda x: x),
              ('unlocked_date', datetime.utcfromtimestamp),
@@ -252,7 +254,7 @@ RADICAL = [('character', lambda x: x),
            ('meaning', lambda x: x.split(', ')),
            ('image', lambda x: x),
            ('level', lambda x: x),
-           ('user_specific', lambda x: ApiObj(x, USER_SPEC))]
+           ('user_specific', lambda x: WaniKaniObject(x, USER_SPEC))]
 KANJI = [('character', lambda x: x),
          ('meaning', lambda x: x.split(', ')),
          ('onyomi', lambda x: x.split(', ')),
@@ -260,9 +262,9 @@ KANJI = [('character', lambda x: x),
          ('nanori', lambda x: x.split(', ')),
          ('important_reading', lambda x: x),
          ('level', lambda x: x),
-         ('user_specific', lambda x: ApiObj(x, USER_SPEC))]
+         ('user_specific', lambda x: WaniKaniObject(x, USER_SPEC))]
 VOCABULARY = [('character', lambda x: x),
               ('kana', lambda x: x.split(', ')),
               ('meaning', lambda x: x.split(', ')),
               ('level', lambda x: x),
-              ('user_specific', lambda x: ApiObj(x, USER_SPEC))]
+              ('user_specific', lambda x: WaniKaniObject(x, USER_SPEC))]
