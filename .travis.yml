@@ -6,7 +6,6 @@ python:
 - 3.2
 - 3.3
 - 3.4
-- nightly
 install:
 - python setup.py install
 - pip install pep8 pylint coverage python-coveralls
