@@ -2,12 +2,16 @@ from setuptools import setup, Command
 import subprocess
 import sys
 
+
 class TestCommand(Command):
     user_options = []
+
     def initialize_options(self):
         pass
+
     def finalize_options(self):
         pass
+
     def run(self):
         raise SystemExit(subprocess.call(
             [sys.executable, '-Wd', 'crabigator/tests/__init__.py']))

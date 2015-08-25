@@ -4,7 +4,9 @@ from unittest import TestCase
 
 api_key = os.environ['WANIKANI_API_KEY']
 
+
 class TestWaniKani(TestCase):
+
     def test_wanikani(self):
         wanikani = WaniKani(api_key)
         print(wanikani.user_information)
@@ -16,8 +18,8 @@ class TestWaniKani(TestCase):
         print(wanikani.critical_items)
         print(wanikani.get_recent_unlocks(65))
         print(wanikani.radicals)
-        print(wanikani.get_radicals([1,2]))
+        print(wanikani.get_radicals([1, 2]))
         print(wanikani.kanji)
-        print(wanikani.get_kanji([1,2]))
+        print(wanikani.get_kanji([1, 2]))
         print(wanikani.vocabulary)
-        print(wanikani.get_vocabulary([1,2]))
+        print(wanikani.get_vocabulary([1, 2]))
