@@ -9,8 +9,9 @@ python:
 - nightly
 install:
 - python setup.py install
-- pip install pylint coverage python-coveralls
+- pip install pep8 pylint coverage python-coveralls
 script:
+- pep8 crabigator
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
 - if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint crabigator; fi
 - if [ "${VER}" == "2.7" ]; then nosetests --with-coverage; else nosetests; fi

@@ -1,3 +1,4 @@
+
 """A very thin Python wrapper over the WaniKani API.
 
 The aim of this module is to model the API as closely as possible while
@@ -50,7 +51,6 @@ Notes
 * All dates in API responses are converted to datetime objects.
 * All comma-separated lists in API responses are converted to arrays of strings
   for easier iteration over multiple readings and meanings.
-
 """
 
 from __future__ import print_function
@@ -168,9 +168,10 @@ class WaniKani(object):
                                      res=resource, args=argument)
         rsp = loads(urlopen(url).read().decode('utf-8'))
         if 'error' in rsp:
-            code = rsp['error']['code'] if 'code' in rsp['error'] else None
-            msg = rsp['error']['message'] if 'message' in rsp['error'] else None
-            raise WaniKaniError(code, msg)
+            error = rsp['error']
+            code = error['code'] if 'code' in error else None
+            message = error['message'] if 'message' in error else None
+            raise WaniKaniError(code, message)
         return rsp
 
 
@@ -183,6 +184,7 @@ class WaniKaniError(Exception):
     def __init__(self, code, msg):
         super(WaniKaniError, self).__init__('{c} - {m}'.format(c=code, m=msg))
         (self.code, self.message) = (code, msg)
+
 
 # Disable the too few public methods warning from pylint. Pylint may have a
 # point, but ignore it on purpose...
