@@ -11,7 +11,8 @@ install:
 - python setup.py install
 - pip install pylint
 script:
-- pylint crabigator
+- export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
+- [[ ${VER} == "2.7" || ${VER} == "3.3" || ${VER} == "3.4" ]] && pylint crabigator
 - python setup.py build_ext
 - python -m compileall -f .
 - python setup.py test
