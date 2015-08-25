@@ -15,7 +15,8 @@ script:
 - if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint crabigator; fi
 - nosetests --with-coverage
 after_success:
-- coveralls
+- export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
+- if [ "${VER}" == "3.4" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls; fi
 env:
   global:
   - secure: JN7MYaPYsg4YUse+Q9xzaRRlRztsCU71CIm0yiXPnJW+zQAlJwWWTczZZgRZqzp91UmUXeVy7SDQIWUeTz2OrSMRXZ9crYsS6cbGQSp7jKcE2IGIeXpr88e+05o2Qn6xBS8wM+5hpsUfP3VPGDJBX3LArZd7k96h1dxJW2Ib9Z11bN1pMqzMwFiIaffjhJbENlT104H5zgScUNGFAr2Mr92/fpBc4y9dvKwEqX4gP6xwc1kjKsme2F8hCe8mzY3tBzX6XIlCJzueYrIBwArnCUKezZOAO5nMUVijqPRme7bUx8xd7L0HPZka9VP7Hr0HfuvkdIN5bkpIG+lifgep9qm3/ruVuLOZDmHipeEshfRfbdbESBuE9vhsAEByEZs4Qo8COo/xdGdnEIQRJpxrr34HgWyyA6nk+tkqv3bg9/8G4ZXRd9h+Vrv6AgA94xMUTPkN033UWzcnLNUs67nnICssFEPfEW2yuQ4WRLR+v7d2Q2Z3HCst3lUOSucTPOcIFQutxQkvaK/1Bhz/m9CuFNBifAgtFrK+dvUvvCj4xQxAYv8o2afcJKb4CY16B0dOjbqCOMibKjT1xo/ku/q4XLkgGRlXkUWb5OcES+K7OBOpQ6V51tkgySEEcrODy5X8NPK38IvuxFV/75Loxhx3Y5lCCDV9dhaBSLWxt7ftpgo=
