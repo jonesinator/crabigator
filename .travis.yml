@@ -12,9 +12,8 @@ install:
 - pip install pylint coverage python-coveralls
 script:
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
-- if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint
-  crabigator; fi
-- nosetests --with-coverage
+- if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint crabigator; fi
+- if [ "${VER}" == "3.4" ]; then nosetests --with-coverage; else nosetests; fi
 after_success:
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
 - if [ "${VER}" == "3.4" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls;
