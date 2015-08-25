@@ -13,10 +13,10 @@ install:
 script:
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
 - if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint crabigator; fi
-- if [ "${VER}" == "3.4" ]; then nosetests --with-coverage; else nosetests; fi
+- if [ "${VER}" == "2.7" ]; then nosetests --with-coverage; else nosetests; fi
 after_success:
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
-- if [ "${VER}" == "3.4" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls;
+- if [ "${VER}" == "2.7" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls;
   fi
 env:
   global:
