@@ -9,7 +9,9 @@ python:
 - nightly
 install:
 - python setup.py install
+- pip install pylint
 script:
+- pylint crabigator
 - python setup.py build_ext
 - python -m compileall -f .
 - python setup.py test
