@@ -1,14 +1,20 @@
+"""Tests for crabigator.wanikani."""
+
+from __future__ import print_function
 from crabigator.wanikani import WaniKani
 import os
 from unittest import TestCase
 
-api_key = os.environ['WANIKANI_API_KEY']
 
-
+# TestCase exposes too many public methods. Disable the pylint warning for it.
+# pylint: disable=too-many-public-methods
 class TestWaniKani(TestCase):
+    """Unit test cases for the WaniKani API wrapper."""
 
-    def test_wanikani(self):
-        wanikani = WaniKani(api_key)
+    @classmethod
+    def test_wanikani(cls):
+        """Test all public methods in crabigator.wanikani."""
+        wanikani = WaniKani(os.environ['WANIKANI_API_KEY'])
         print(wanikani.user_information)
         print(wanikani.study_queue)
         print(wanikani.level_progression)
