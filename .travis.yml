@@ -13,7 +13,6 @@ script:
 - pep8 crabigator
 - pylint crabigator
 - nosetests --with-coverage
-after_success:
 - if [ "${TRAVIS_PYTHON_VERSION}" == "3.4" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls; fi
 - export PUB=$(git log --format=%B -n 1 ${TRAVIS_COMMIT} | head -1 | grep -E "^Publish (major|minor|micro)" | awk '{print $2}' || echo "no")
 - if [ "${TRAVIS_PYTHON_VERSION}" == "3.4" -a "${PUB}" != "no" ]; then python setup.py publish --bump=${PUB} --github-user=${GITHUB_USER} --github-token=${GITHUB_TOKEN} --github-slug=${TRAVIS_REPO_SLUG} --pypi-user=${PYPI_USER} --pypi-pass=${PYPI_PASS}; fi

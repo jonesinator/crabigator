@@ -1,7 +1,6 @@
 """Packaging/Publishing script for the crabigator python library."""
 
 import base64
-import configparser
 import datetime
 import json
 import os
@@ -10,6 +9,11 @@ import setuptools
 import shlex
 import subprocess
 import sys
+
+try:
+    import ConfigParser as configparser
+except ImportError:
+    import configparser
 
 try:
     import urllib2 as url
@@ -109,7 +113,7 @@ class Publish(setuptools.Command):
         call('git pull')
         call('python setup.py sdist')
         call('python setup.py bdist_wheel')
-        if not os.path.exists(os.path.expand_user('~/.pypirc')):
+        if not os.path.exists(os.path.expanduser('~/.pypirc')):
             config = configparser.RawConfigParser()
             config.add_section('distutils')
             config.set('distutils', 'index-servers', 'pypi')
@@ -117,7 +121,7 @@ class Publish(setuptools.Command):
             config.set('pypi', 'repository', 'https://pypi.python.org/pypi')
             config.set('pypi', 'username', self.pypi_user)
             config.set('pypi', 'password', self.pypi_pass)
-            with open(os.path.expand_user('!/.pypirc'), 'wb') as pypirc_file:
+            with open(os.path.expanduser('!/.pypirc'), 'wb') as pypirc_file:
                 config.write(pypirc_file)
         call('twine upload dist/*')
 
