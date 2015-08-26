@@ -121,7 +121,7 @@ class Publish(setuptools.Command):
             config.set('pypi', 'repository', 'https://pypi.python.org/pypi')
             config.set('pypi', 'username', self.pypi_user)
             config.set('pypi', 'password', self.pypi_pass)
-            with open(os.path.expanduser('!/.pypirc'), 'wb') as pypirc_file:
+            with open(os.path.expanduser('~/.pypirc'), 'wb') as pypirc_file:
                 config.write(pypirc_file)
         call('twine upload dist/*')
 
