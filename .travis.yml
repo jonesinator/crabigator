@@ -16,7 +16,7 @@ script:
 after_success:
 - if [ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls; fi
 - export PUB=$(git log --format=%B -n 1 ${TRAVIS_COMMIT} | head -1 | grep -E "^Publish (major|minor|micro)" | awk '{print $2}' || echo "no")
-- if [ "${TRAVIS_PYTHON_VERSION}" == "3.4" -a "${PUB}" != "no" ]; then python setup.py publish --bump=${PUB}; --github-user=${GITHUB_USER} --github-token=${GITHUB_TOKEN} --github-slug=${TRAVIS_REPO_SLUG} --pypi-user=${PYPI_USER} --pypi-pass=${PYPI_PASS} --pypi-repo="https://pypi.python.org/pypi" fi
+- if [ "${TRAVIS_PYTHON_VERSION}" == "3.4" -a "${PUB}" != "no" ]; then python setup.py publish --bump=${PUB} --github-user=${GITHUB_USER} --github-token=${GITHUB_TOKEN} --github-slug=${TRAVIS_REPO_SLUG} --pypi-user=${PYPI_USER} --pypi-pass=${PYPI_PASS} --pypi-repo="https://pypi.python.org/pypi"; fi
 env:
   global:
   - secure: X6e2tl0k2zGD0/LLAMX1ltOfz/pe82oKE43uMHT2Yx8OBLsfW2WIGzqsoMS5joLRzT2gl3MRoTDL8TmZZ07oH5Z/WnqmVCu7+v33R9H0li53QpEHPsaD33SstZtiBpdjtanuPnNuF02uygNeueTc9h29u4Dfk/nckII/lwljABRXLy9XfYX9A4TQtYmYYecknESVB8VIRLXisIpf+cA5t6jaWdgwjeTAYrmR0PQbFmq5dMilpCMqvhHBIP08jJ77OKAUfYaWLm/p0U+4fYnhfqjY8RcyjqVCkVl8K92QFiceFypW3BpZU4DPcKHJX0kImKAiaDJyfzdIq+/Peu/mVamyWTLXd29JYK6D4bxLqVVPoYliy3MkWX7aEg0tJNensl8WG58SPsVRO0G93nXqIBPyBcZBxLniG/Ww5LWeSli4FBX9RBeadocxeoFlAP1MGDOLOwggk3n3J1g1lxId38iF2wgTIi1Gm5nVfsTG/mYtZqmM1LrtYxI9/S3FioNkVl42mkKNndboww9nJdgJCfHSk/FRr08qOasBxPlzOr5dC/N2dQTU/ZetM2908tDXKYoI2TW97w9ARDd0vH5Gb+b3Fq9WD4KdKUvM6rz7VSZtM1WxBifnGftLuirU9J5C1MWYX34NJdR0xPHaPmi73yXG2N22y4GnJk/RKxGiW9c=
