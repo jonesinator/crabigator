@@ -52,6 +52,7 @@ class Publish(setuptools.Command):
                     ('pypi-pass=', None, 'The pypi password.')]
 
     def initialize_options(self):
+        """Called to give the user options default values."""
         self.bump = None
         self.github_user = None
         self.github_token = None
@@ -60,6 +61,7 @@ class Publish(setuptools.Command):
         self.pypi_pass = None
 
     def finalize_options(self):
+        """Called to make sure the user options have valid values."""
         assert (self.bump == 'major' or
                 self.bump == 'minor' or
                 self.bump == 'micro')
@@ -70,6 +72,8 @@ class Publish(setuptools.Command):
         assert self.pypi_pass is not None
 
     def run(self):
+        """Called to publish the package to pypi."""
+
         # Determine the next version.
         if self.bump == 'major':
             new = '{0}.{1}.{2}'.format(VER[0] + 1, 0, 0)
@@ -135,13 +139,19 @@ class Test(setuptools.Command):
     description = 'Run all unit tests for the crabigator module.'
     user_options = []
 
+    @classmethod
     def initialize_options(self):
+        """Called to give the user options default values."""
         pass
 
+    @classmethod
     def finalize_options(self):
+        """Called to make sure the user options have valid values."""
         pass
 
+    @classmethod
     def run(self):
+        """Called to actually run the unit tests."""
         raise SystemExit(subprocess.call(
             [sys.executable, '-Wd', 'crabigator/tests/__init__.py']))
 
