@@ -10,6 +10,8 @@ install:
 - pip install pep8 pylint coverage python-coveralls wheel twine
 - python setup.py install
 script:
+- pep8 setup.py
+- pylint setup.py
 - pep8 crabigator
 - pylint crabigator
 - nosetests --with-coverage

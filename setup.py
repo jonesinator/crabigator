@@ -1,5 +1,9 @@
 """Packaging/Publishing script for the crabigator python library."""
 
+# pylint: disable=no-name-in-module, import-error
+# pylint: disable=too-many-public-methods, attribute-defined-outside-init
+
+from __future__ import print_function
 import base64
 import datetime
 import json
@@ -9,6 +13,7 @@ import setuptools
 import shlex
 import subprocess
 import sys
+
 
 try:
     import ConfigParser as configparser
@@ -34,9 +39,6 @@ VER = sorted(
     )[-1]
 
 
-# setuptools.Command exposes too many public methods. Disable the pylint
-# warning for it.
-# pylint: disable=too-many-public-methods, attribute-defined-outside-init
 class Publish(setuptools.Command):
     """A setup.py command that can be used to publish to pypi.python.org."""
 
@@ -101,9 +103,10 @@ class Publish(setuptools.Command):
         request.add_header("Authorization", b'Basic ' + encode)
         request.add_header("Content-Type", "application/json")
         response = url.urlopen(request, json.dumps(tagdata).encode('utf-8'))
+        print(response)
 
         # Create the tag reference.
-        refdata = {'ref': 'refs/tags/' + new, 'sha' : sha}
+        refdata = {'ref': 'refs/tags/' + new, 'sha': sha}
         request = url.Request("https://api.github.com/repos/{0}/git/refs"
                               .format(self.github_slug))
         request.add_header("Authorization", b'Basic ' + encode)
