@@ -140,17 +140,17 @@ class Test(setuptools.Command):
     user_options = []
 
     @classmethod
-    def initialize_options(self):
+    def initialize_options(cls):
         """Called to give the user options default values."""
         pass
 
     @classmethod
-    def finalize_options(self):
+    def finalize_options(cls):
         """Called to make sure the user options have valid values."""
         pass
 
     @classmethod
-    def run(self):
+    def run(cls):
         """Called to actually run the unit tests."""
         raise SystemExit(subprocess.call(
             [sys.executable, '-Wd', 'crabigator/tests/__init__.py']))
