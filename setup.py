@@ -76,7 +76,9 @@ class Publish(setuptools.Command):
             raise Exception('bump must be major, minor, or micro')
 
         # Assemble the API request for creating a new tag on GitHub.
-        encode = base64.b64encode(self.github_user + b':' + self.github_token)
+        user = self.github_user.encode('utf-8')
+        token = self.github_token.encode('utf-8')
+        encode = base64.b64encode(user + b':' + token)
         sha = call('git rev-parse HEAD').strip()
         name = call('git log --format="%an" -n 1 {0}'.format(sha)).strip()
         email = call('git log --format="%ae" -n 1 {0}'.format(sha)).strip()
@@ -94,7 +96,7 @@ class Publish(setuptools.Command):
                               .format(self.github_slug))
         request.add_header("Authorization", b'Basic ' + encode)
         request.add_header("Content-Type", "application/json")
-        response = url.urlopen(request, json.dumps(tagdata))
+        response = url.urlopen(request, json.dumps(tagdata).encode('utf-8'))
 
         # Create the tag reference.
         refdata = {'ref': 'refs/tags/' + new, 'sha' : sha}
@@ -102,7 +104,7 @@ class Publish(setuptools.Command):
                               .format(self.github_slug))
         request.add_header("Authorization", b'Basic ' + encode)
         request.add_header("Content-Type", "application/json")
-        response = url.urlopen(request, json.dumps(refdata))
+        response = url.urlopen(request, json.dumps(refdata).encode('utf-8'))
 
         call('git pull')
         call('python setup.py sdist')
