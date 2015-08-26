@@ -6,19 +6,26 @@ python:
 - 3.2
 - 3.3
 - 3.4
+branches:
+  except:
+  - "/^\\d+\\.\\d+\\.\\d+$/"
 install:
+- pip install pep8 pylint coverage python-coveralls wheel twine
 - python setup.py install
-- pip install pep8 pylint coverage python-coveralls
 script:
 - pep8 crabigator
 - export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
 - if [ "${VER}" == "2.7" -o "${VER}" == "3.3" -o "${VER}" == "3.4" ]; then pylint crabigator; fi
 - if [ "${VER}" == "2.7" ]; then nosetests --with-coverage; else nosetests; fi
 after_success:
-- export VER=$(python --version 2>&1 | awk '{print $2}' | awk 'BEGIN{FS="."}{printf("%d.%d",$1,$2)}')
-- if [ "${VER}" == "2.7" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls;
-  fi
+- if [ "${VER}" == "2.7" ]; then COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls; fi
+- export PUB=$(git log --format=%B -n 1 ${TRAVIS_COMMIT} | head -1 | grep -E "^Publish (major|minor|micro)" | awk '{print $2}' || echo "no")
+- if [ "${VER}" == "3.4" -a "${PUB}" != "no" ]; then python setup.py publish --bump=${PUB}; --github-user=${GITHUB_USER} --github-token=${GITHUB_TOKEN} --github-slug=${TRAVIS_REPO_SLUG} --pypi-user=${PYPI_USER} --pypi-pass=${PYPI_PASS} --pypi-repo="https://pypi.python.org/pypi" fi
 env:
   global:
   - secure: X6e2tl0k2zGD0/LLAMX1ltOfz/pe82oKE43uMHT2Yx8OBLsfW2WIGzqsoMS5joLRzT2gl3MRoTDL8TmZZ07oH5Z/WnqmVCu7+v33R9H0li53QpEHPsaD33SstZtiBpdjtanuPnNuF02uygNeueTc9h29u4Dfk/nckII/lwljABRXLy9XfYX9A4TQtYmYYecknESVB8VIRLXisIpf+cA5t6jaWdgwjeTAYrmR0PQbFmq5dMilpCMqvhHBIP08jJ77OKAUfYaWLm/p0U+4fYnhfqjY8RcyjqVCkVl8K92QFiceFypW3BpZU4DPcKHJX0kImKAiaDJyfzdIq+/Peu/mVamyWTLXd29JYK6D4bxLqVVPoYliy3MkWX7aEg0tJNensl8WG58SPsVRO0G93nXqIBPyBcZBxLniG/Ww5LWeSli4FBX9RBeadocxeoFlAP1MGDOLOwggk3n3J1g1lxId38iF2wgTIi1Gm5nVfsTG/mYtZqmM1LrtYxI9/S3FioNkVl42mkKNndboww9nJdgJCfHSk/FRr08qOasBxPlzOr5dC/N2dQTU/ZetM2908tDXKYoI2TW97w9ARDd0vH5Gb+b3Fq9WD4KdKUvM6rz7VSZtM1WxBifnGftLuirU9J5C1MWYX34NJdR0xPHaPmi73yXG2N22y4GnJk/RKxGiW9c=
   - secure: lDXEsR3KJ3WsXbIfybTL0NXK6U4+dgfu9MqEASsnmtw2Fnx9BOo1HrvgiOJZA4yU1qw0eMINruTV9hmVBX4f5Dd+QqF8LpsXBSyQMXHankTJ2c1xseYl6SQk6jMo4CyAoFS2kl46V2TAikBvJnKQOVSNtTQctWgtE6J0lztVfHCds/uhD77d8qBhQ1XjMhqmo6uwo3J73JQRw/yQ6dbDbfHFEAG0XHuTsX1sqESoPT9QJuqmp8xCrajIGjBxlCV+V4pZqj24eLqwurxlv2v3T3lgnWxymtEv7ykcJxRGTOX9WoX1rW3eC412tOldQPlIYBXdq7DlPZrjVfWsalrgyyW5F397jYfaaSBcFB5OsMf0i2q4LMPne0uHJBYJhLedpX+FSg4XnZAUFhgVxyW8y2/Sen2xKEqxzInkP3JBEwQU/5FRFDH4hUBmXhQjGg7HXM28cjouj9F87lQuYnjp0QgYTkjo74kTAiQ5TImJglb3Ja4QVOzFZb+rBHiOXfrGnVDt00PnyJpo9D4IpVxgXkJb6aoA6vtuIHRBGWcezuovpqBJOoQ/CLKhUNOBkhS5qwcT2VZWkCkihci6aFymk/2iCeD/7E3LNxr1x38+0zW7xTUAGF9DQyq3GlcMmzvgfPTYGI4+mXBnaS8n5x3aZn4TapUZqqooFqM2mhzFpJw=
+  - secure: py6XHBiYxn6AaGTVmrj/tK5gDnovbOpdSkb/5AtEWpq1QdVvyczu1iSHkUMPDI1hQaDmJyhZtulJnSWJ/bpGG+yfR5KFkoabE+MJff85K4wgOD/ctcgFHzYDKCeK9o/6iAuiVwWqhr2Uq9GrP6qbtQr3EteSQzalTR2IlzuQXYwYxhep7+0VkOK7zFBwoCzhO3/JgbG86wywid7PuJKwDbW6ZX0+YSbrfeOg6WJWjALRzXTwnAzlCOOvuzW3QuMzFdCpzGTCQq8OwQKtyoRjFWd+2fZ0T+l+dfD6w70hJzr09VnmF6+/eEWO3jl5V6R5M/M8q37pHCwz38a+SF6usqdRxDJbJ15T7iHddeH7jEeTvkEDxMOXMjNvEPDBFeSgSBu6mw48DjcClCjelIOncGivbP9nAZDZuspL7cz6svPDuIqCPuQ+M8MXuvM3FYeoSpBZFQrihmHfPEi9zrmain8kFhjqw0g848bsw/bxEttTK6ectP0MSciwtjWA7DIgG0T4fv1c3e41yX+CdyhTPp+Xmo0wFYMVUUKbDf2OGt6MruUr+APEwUotZE01pABZBLnAKGHNhnp6ThsCIeqG/kOmGb51G+kSL0//23tyG2iC8crGKTTWKo6SB6DkDdjlb8ThIurpksIJry5ZIje+J2PRDdW16dSjAoFiLc58Am8=
+  - secure: dN6XEejSXIjtUw7kwUfDR8UVgWBmYXPHe3ZYPFwMsovwmejAm9rOMUtxUGqWk4wlnbap0oDz+7rITuByuTslH7MxGx/bYx12r60j7B1r2FkS1hnrBjYk7WV5dYiS+aK7ppTkKGEPwJp1i7Z4W/8VGNVr42hU2iKypVYVUDR57AGk4QwI9LNFsUPfg8I5u5ZQTcqqRtWAELTrPYjXsU1ZP+14O7D0Us7oVxd+OsJDMzoITx+89Rtf+q20eVN+t9sf1lS51FHnD00PEHM5aOWpGaNyCKAcwbxIT4+DrYxMzXO/gt7CLZVUHiA/LAf7AerQdanLjG+8A9lGAHKZA5Jfo6D2xuy6ldvmpM9Ox1xWJ/KtavZ1RUHewOkWCXQr/wgf62KcALEh4VWj8hEHE+2pLeveP6ysdDR3W5gksyUAUubsOd70E+vqCcq4RNQWoPVTL1LCfGHWcdozjDA6fneJmapeedWovPLcuVunqjuGFHDZbWhB0jIHMNjywLw+mWOSXdnxqsu/LnrLJ3c1zxk5i61zYvBtm4IA96f685nh5CmcCgbFEcWOzwyC1aDIZIAONUo5xK8wJ8LDxpSc6lfR4At7iKYA2K0qTaTEwWEv5ITzOUKW530H6gfxjjlIqr+2U9R8OfxLnUH0P6CCr5K2MZz435SjKuuNJbpRyi2vUj4=
+  - secure: G29Pq8Xl292KuhSNrvK2n17sXA1lwrHruD6Cdd5RJxENx72Bn/1gDBgNRzC75a1VEBPjkQ07tt6qAE2ShnlU0iKpVpXqHjMMxKmAKNPYTWEz6ZGIJUAO5bw2iO+3Gi0zdqNvQJQiAf8embUkekUsYHRQ4QcKtE1lUf7w3PoyidXuxF1EUFmveQLmLPBcssomgZnAUTXNy0ejn6c/EjZU/PI0DeKpxZ7zM9LTF9EZReGBdJG5gNpwt/t4kl2EmmkNAHrJ4SeijOhC0k6hJ3Q/vz8mU5ISA/4R5imUi50L4tpK7bLufAb6E+oDAcdGuhh+4EDkxrDlKHPf0Yanz16l0dX92COezdKfKy6xQr9UTV6xWXhs7vEeR/y8UhialS3klWMq410iTYcqO6wfGigho4Evh6LYlSB4hTtBjtCLkjZLyo2vKrid+/W2IBfMRNIHQ4SvBGdevUPkxcpR6cTI9qQepvKIVrSJKvLgPff0ba5dxe54zqU/RCqT1Cx4Pkqq6DHD4rLJz9s1Jbm2P7vhtaZ2n8pP2PdaA4uvfR7cNBRKru6wOSLV1U/Yy1kXYzkzrgXk/c/MDQKlVjvIzrGdahPTL3Ll2qQ8tMhc2cXYDECFen7gKQoFzjE5frmgEO9KUni2Xg6nhhQW/VFx0/gyTZeVyf+nfepGdCtyDkoD8uc=
+  - secure: OXm9kCpzAkejE/Cs3bUF2Reide8r6PrvLcwpM4fn+vcdppdnb+g9RGahzdmDzFJkkRH+s+nKKyomILNfKkSCa87aldWg6tCRkrSQxuw8EUQBWuVftN68XdBODQh/WVncC7qGl09hdRf0c/1vRe6kSCsi1AdgY6mYpTXVYORx6vyAGIG/cbbjYsV129MW91LgzcqvUeiagaoct+QPIwR+gE1IRIRJINtWHn8BDRJffQxU89LhRoSMF+Up0DkX49MmQPN2iPIn7X6DrErWGppNsA/C5AGQBlJZMR7jhffYAnBC3fJ1gBbLsSmc03YQ01Fj30na+RZTIKC7y11bjKigpCcWvRLp7xYL3WIMXs5X5eKloPV8xfTwhg3a0Mup6UveH+8SxIqSnnMMgV7cKp599oWjOHRR5pnMk8tq1OhYaTZChC7QXgN4D3qpfk8obVwU6VE2gbmXf8a6a6oy6JF8mPAo6hLQBupjoBo0F9zPv9r+xU0erU7e8J5yX7s1c8GdbZOPDAKoC8/kUEmkYeL7lvDzFWAXr3BaSUK33Oht/qxcLwpDWBOZb7d5hipU5bkKpXuUIcE+zOBf/mzFwv8iTShD/TBzXABoTjjbgbPrYBNXcwHOr66bAmuodAhOAmsmAFrtIDHX16ODTk/9KLW2NgSDVcFabhrf57gBswBv9aY=

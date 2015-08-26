@@ -53,7 +53,6 @@ Notes
   for easier iteration over multiple readings and meanings.
 """
 
-from __future__ import print_function
 from datetime import datetime
 from json import loads
 try:
