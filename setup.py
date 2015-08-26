@@ -1,8 +1,10 @@
 """Packaging/Publishing script for the crabigator python library."""
 
 import base64
+import configparser
 import datetime
 import json
+import os
 import re
 import setuptools
 import shlex
@@ -10,9 +12,9 @@ import subprocess
 import sys
 
 try:
-    import urllib.request as url
-except ImportError:
     import urllib2 as url
+except ImportError:
+    import urllib.request as url
 
 
 def call(command):
@@ -41,8 +43,7 @@ class Publish(setuptools.Command):
                     ('github-token=', None, 'The github auth token.'),
                     ('github-slug=', None, 'The github repo slug.'),
                     ('pypi-user=', None, 'The pypi username.'),
-                    ('pypi-pass=', None, 'The pypi password.'),
-                    ('pypi-repo=', None, 'The pypi repository.')]
+                    ('pypi-pass=', None, 'The pypi password.')]
 
     def initialize_options(self):
         self.bump = None
@@ -51,7 +52,6 @@ class Publish(setuptools.Command):
         self.github_slug = None
         self.pypi_user = None
         self.pypi_pass = None
-        self.pypi_repo = None
 
     def finalize_options(self):
         assert (self.bump == 'major' or
@@ -62,7 +62,6 @@ class Publish(setuptools.Command):
         assert self.github_slug is not None
         assert self.pypi_user is not None
         assert self.pypi_pass is not None
-        assert self.pypi_repo is not None
 
     def run(self):
         # Determine the next version.
@@ -79,6 +78,7 @@ class Publish(setuptools.Command):
         user = self.github_user.encode('utf-8')
         token = self.github_token.encode('utf-8')
         encode = base64.b64encode(user + b':' + token)
+        call('git pull')
         sha = call('git rev-parse HEAD').strip()
         name = call('git log --format="%an" -n 1 {0}'.format(sha)).strip()
         email = call('git log --format="%ae" -n 1 {0}'.format(sha)).strip()
@@ -109,8 +109,17 @@ class Publish(setuptools.Command):
         call('git pull')
         call('python setup.py sdist')
         call('python setup.py bdist_wheel')
-        call('twine upload -r {0} -u {1} -p {2} dist/*'.format(
-            self.pypi_repo, self.pypi_user, self.pypi_pass))
+        if not os.path.exists(os.path.expand_user('~/.pypirc')):
+            config = configparser.RawConfigParser()
+            config.add_section('distutils')
+            config.set('distutils', 'index-servers', 'pypi')
+            config.add_section('pypi')
+            config.set('pypi', 'repository', 'https://pypi.python.org/pypi')
+            config.set('pypi', 'username', self.pypi_user)
+            config.set('pypi', 'password', self.pypi_pass)
+            with open(os.path.expand_user('!/.pypirc'), 'wb') as pypirc_file:
+                config.write(pypirc_file)
+        call('twine upload dist/*')
 
 
 class Test(setuptools.Command):
