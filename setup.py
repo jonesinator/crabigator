@@ -109,7 +109,7 @@ class Publish(setuptools.Command):
         call('git pull')
         call('python setup.py sdist')
         call('python setup.py bdist_wheel')
-        call('twine -r {0} -u {1} -p {2} upload dist/*'.format(
+        call('twine upload -r {0} -u {1} -p {2} dist/*'.format(
             self.pypi_repo, self.pypi_user, self.pypi_pass))
 
 
