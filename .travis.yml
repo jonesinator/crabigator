@@ -4,8 +4,8 @@ python:
 - 2.7
 - 3.4
 branches:
-  except:
-  - "/^\\d+\\.\\d+\\.\\d+$/"
+  only:
+  - master
 install:
 - pip install pep8 pylint coverage python-coveralls wheel twine
 - python setup.py install
