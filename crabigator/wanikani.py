@@ -1,4 +1,3 @@
-
 """A very thin Python wrapper over the WaniKani API.
 
 The aim of this module is to model the API as closely as possible while
