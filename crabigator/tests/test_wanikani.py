@@ -1,9 +1,10 @@
 """Tests for crabigator.wanikani."""
 
 from __future__ import print_function
-from crabigator.wanikani import WaniKani, WaniKaniError
 import os
 from unittest import TestCase
+
+from crabigator.wanikani import WaniKani, WaniKaniError
 
 
 # TestCase exposes too many public methods. Disable the pylint warning for it.
