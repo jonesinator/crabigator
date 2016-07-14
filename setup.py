@@ -9,11 +9,9 @@ import datetime
 import json
 import os
 import re
-import setuptools
 import shlex
 import subprocess
 import sys
-
 
 try:
     import ConfigParser as configparser
@@ -24,6 +22,8 @@ try:
     import urllib2 as url
 except ImportError:
     import urllib.request as url
+
+import setuptools
 
 
 def call(command):
